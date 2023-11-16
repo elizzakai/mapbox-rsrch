@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Points on a map</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+    body { 
+        margin: 0; 
+        padding: 0; 
+    }
+    #map { 
+        position: absolute; 
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        top: 0; 
+        bottom: 0; 
+        width: 100%; 
+    }
+h1 {
+  font-size: 18px;
+  font: 18px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  line-height: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 14px;
+  font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 15px;
+  font: 15px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+
+}
+
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+.sidebar {
+    position: absolute;
+    width: 33.3333%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+#console {
+    position: absolute;
+
+    padding-left: 10;
+    padding-right: 10;
+    text-align: center;
+    width: 33.3333%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    background-color: white;
+
+
+  /* position: absolute;
+  bottom: 50%;
+  width: 340px;
+  height: 340px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white; */
+}
+
+#pd {
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+</style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <div id='console'>
+        <h1>Ghosts of "The City in a Forest"</h1>
+        <div id="pd"><p></p></div>
+        <!-- <p>Tree Deaths in Atlanta.</p> -->
+    </div>
+    <script>
+    // The value for 'accessToken' begins with 'pk...'
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpenpha2FpIiwiYSI6ImNsbmRlODVhMTAzanQybm51NGk4cWEyOGsifQ.P9F3cIVW7CJChVLY45zpyg'; 
+    const map = new mapboxgl.Map({
+      container: 'map',
+      // Replace YOUR_STYLE_URL with your style URL.
+      style: 'mapbox://styles/elizzakai/clp0k3ew100v001peb9jbcnk2', 
+      center: [-84.451883, 33.748630],
+      zoom: 11.00,
+      pitch: 18,
+    });
+
+    map.on('mousemove', (event) => {
+  const features = map.queryRenderedFeatures(event.point, {
+    layers: ['atlantadeaths-2019']
+  });
+  document.getElementById('pd').innerHTML = features.length
+    ? `<h3>${features[0].properties.Date}</h3><p>${features[0].properties.Description}</p>`
+: `<p></p>`;
+
+});
+
+
+//     // Code from the next step will go here.
+//     map.on('click', (event) => {
+//   // If the user clicked on one of your markers, get its information.
+//   const features = map.queryRenderedFeatures(event.point, {
+//     layers: ['illegal-activity-w-date'] // replace with your layer name
+//   });
+//   if (!features.length) {
+//     return;
+//   }
+//   const feature = features[0];
+//   /* 
+//     Create a popup, specify its options 
+//     and properties, and add it to the map.
+//   */
+// const popup = new mapboxgl.Popup({ offset: [0, -15] })
+//   .setLngLat(feature.geometry.coordinates)
+//   .setHTML(
+//     `<h2>${feature.properties.Date}</h2><p>${feature.properties.Description}</p>`
+//   )
+//   .addTo(map);
+
+//   // Code from the next step will go here.
+// });
+
+    </script>
+  </body>
+</html>
